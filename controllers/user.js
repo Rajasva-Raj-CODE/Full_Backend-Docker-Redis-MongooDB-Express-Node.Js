@@ -1,5 +1,5 @@
-import { User } from "../models/user";
-
+import { User } from "../models/user.js";
+import bcrypt from "bcrypt";
 export const register = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -15,7 +15,10 @@ export const register = async (req, res) => {
         .status(403)
         .json({ success: false, message: "This email id is already registered" });
     }
-    await User.create({ fullName, email, password });
+    // password hashing
+    const hashedPassword = await bcrypt.hash(password,10);
+
+    await User.create({ fullName, email, password: hashedPassword });
     return res.status(201).json({ success: true, message: "User Registered" }); 
   } catch (error) {}
 };
