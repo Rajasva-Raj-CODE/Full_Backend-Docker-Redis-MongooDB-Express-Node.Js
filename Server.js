@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 import connectDB from "./DB/database.js";
 import userRoutes from "./routes/user.js";
-import bodyParser from "body-parser";
+import todoRoutes from "./routes/todo.js";
 
 const app = express();
 dotenv.config();
@@ -15,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //http://localhost:8000/api/v1/user/
+//http://localhost:8000/api/v1/todo/
 app.use("/api/v1/user",userRoutes);
+app.use("/api/v1/todo",todoRoutes);
 
 
 
