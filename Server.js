@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import connectDB from "./DB/database.js";
 import userRoutes from "./routes/user.js";
 import todoRoutes from "./routes/todo.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,7 @@ connectDB();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 //http://localhost:8000/api/v1/user/

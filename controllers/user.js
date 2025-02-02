@@ -48,11 +48,18 @@ export const login = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Incorrect email id or password" });
     }
-    
-    const token = await jwt.sign({userID:user._id},process.env.JWT_SECRET,{expiresIn:'1d'});
+
+    const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
 
     return res
       .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000,
+      })
       .json({ success: true, message: `Welcome ${user.fullName}` });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
