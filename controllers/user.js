@@ -65,3 +65,14 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const logout = async (_, res) => {
+  try {
+    return res
+      .status(200)
+      .cookie("token", "", { maxAge: 0 })
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
