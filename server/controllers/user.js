@@ -13,7 +13,7 @@ export const register = async (req, res) => {
     // finding user ki with this email id se register toh ni
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(403).json({
+      return res.status(400).json({
         success: false,
         message: "This email id is already registered",
       });
@@ -39,13 +39,13 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res
-        .status(404)
+        .status(400)
         .json({ success: false, message: "Incorrect email id or password" });
     }
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       return res
-        .status(404)
+        .status(400)
         .json({ success: false, message: "Incorrect email id or password" });
     }
 
