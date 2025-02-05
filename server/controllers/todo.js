@@ -10,7 +10,9 @@ export const createTodo = async (req, res) => {
     }
     const todo = new Todo({ title, description });
     await todo.save();
-    return res.status(201).json({ success: true, message: "Todo Created..." });
+    return res
+      .status(201)
+      .json({ success: true, message: "Todo Created...", todo, });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

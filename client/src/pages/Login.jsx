@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Button } from "../components/ui/button";
+import toast from "react-hot-toast";
 import axios from "axios";
-import { useToast } from "../hooks/use-toast";
-import { motion } from "framer-motion";
+import img from "../assets/loginImg.png";
+import { useNavigate } from "react-router-dom";
+import img2 from "../assets/login.gif";
+
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const {toast} = useToast();
-
+  const navigate = useNavigate();
   const chnageHandler = (e) => {
     setUser({
       ...user,
@@ -28,54 +29,56 @@ const Login = () => {
         }
       );
       if (res.data.success) {
-      alert("Login successfully", res.data.message);
+        toast.success("Login successfully", res.data.message);
+        navigate("/");
       }
     } catch (error) {
-        alert("Error logging in", error.res.data.message);
+      toast.error("Error logging in", error.res.data.message);
     }
   };
   return (
-    <motion.div
-    className="flex flex-col items-center justify-center min-h-screen bg-gray-100"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-  >
-    <motion.div
-      className="bg-white p-8 rounded-2xl shadow-lg w-80"
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Login</h2>
-      <motion.input
-        value={user.email}
-        onChange={chnageHandler}
-        type="text"
-        name="email"
-        placeholder="Email"
-        className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
-        whileFocus={{ scale: 1.05 }}
-      />
-      <motion.input
-        value={user.password}
-        onChange={chnageHandler}
-        type="password"
-        name="password"
-        placeholder="Password"
-        className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
-        whileFocus={{ scale: 1.05 }}
-      />
-      <motion.button
-        onClick={loginHandler}
-        className="w-full p-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-transform duration-200"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        Login
-      </motion.button>
-    </motion.div>
-  </motion.div>
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-200 p-6">
+      <div className="w-full md:w-1/4 flex justify-center items-center">
+        <img
+          src={img}
+          alt="Login Icon"
+          className="h-60 md:w-72 md:h-80 object-cover rounded-l-full shadow-lg"
+        />
+      </div>
+
+      <div className="w-full md:w-1/2 h-60 md:h-80 max-w-md bg-white p-8 rounded-r-full shadow-2xl flex flex-col items-center">
+        <img
+          src={img2}
+          alt="Login"
+          className="w-20 h-20 object-contain rounded-full"
+        />
+
+        <input
+          value={user.email}
+          onChange={chnageHandler}
+          type="text"
+          name="email"
+          placeholder="Email"
+          className="md:w-64  max-w-sm p-3 mb-4 border rounded-full border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition-transform duration-200 focus:scale-105"
+        />
+
+        <input
+          value={user.password}
+          onChange={chnageHandler}
+          type="password"
+          name="password"
+          placeholder="Password"
+          className="md:w-64  max-w-sm p-3 mb-4 border rounded-full border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition-transform duration-200 focus:scale-105"
+        />
+
+        <button
+          onClick={loginHandler}
+          className="md:w-64  max-w-sm p-3 bg-blue-500 rounded-full text-white font-semibold hover:bg-blue-600 transition-transform duration-200 hover:scale-105 active:scale-95"
+        >
+          Login
+        </button>
+      </div>
+    </div>
   );
 };
 
